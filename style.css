@@ -77,21 +77,20 @@ sub {
 }
 .gallery {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-    gap: 12px;
-    max-width: 500px;
-    width: 100%;
-    padding: 15px;
-    perspective: 1000px;
+    grid-template-columns: repeat(2, 1fr); /* Строго 2 колонки, как в Apple-стиле */
+    gap: 12px; /* Расстояние между фото */
+    padding: 12px;
 }
 
 .gallery img {
     width: 100%;
-    height: 140px;
-    object-fit: cover;
-    border-radius: 20px;
-    background: #252527;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    aspect-ratio: 1 / 1; /* Делает фото идеально квадратным без искажений */
+    object-fit: cover; /* Обрезает лишнее, чтобы лица не растягивались */
+    border-radius: 18px; /* Мягкие углы Apple */
+    display: block;
+}
+
+
     /* Важно: transition для плавного всплытия */
     transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.3s ease, filter 0.3s ease;
     cursor: pointer;
@@ -294,14 +293,3 @@ br {
     0% { transform: translate(0,0); }
     100% { transform: translate(30%, 30%); }
 }
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 20px; /* твое скругление */
-  object-fit: cover;
-}
-
-
-
-
-
