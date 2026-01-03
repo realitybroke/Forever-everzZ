@@ -4,14 +4,22 @@
 	box-sizing: border-box;
 }
 body {
-	background-color: #1a1a1c ! important;
-	color: d1d1d1;
-	font-family: -apple-system, system-ui, sans-serif;
-	margin: 0;
-	padding: 40px 20px;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+    /* Новый эстетичный фон с сеткой */
+    background-color: #0a0a0c !important;
+    background-image: 
+        radial-gradient(circle at 50% 50%, rgba(255,255,255,0.02) 1px, transparent 1px),
+        radial-gradient(circle at 50% -20%, #2c2c34, #0a0a0c) !important;
+    background-size: 30px 30px, 100% 100%;
+    background-attachment: fixed !important;
+
+    /* Твои оригинальные настройки расположения */
+    color: #d1d1d1;
+    font-family: -apple-system, system-ui, sans-serif;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 h4 {
 	font-size: 1rem;
@@ -20,11 +28,33 @@ h4 {
 	color: #ffffff;
 	margin-bottom: 5px;
 }
-h1 .step1 {
-	font-size: 1.6rem;
-	color: #ffffff;
-	letter-spacing: -0.5px;
-	margin-bottom: 5px;
+h1.step1 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 8px;
+    
+    /* Эффект блика */
+    background: linear-gradient(120deg, #ffffff 30%, #4a9eff 50%, #ffffff 70%);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    /* Тень для объема (чтобы текст не сливался с точками фона) */
+    filter: drop-shadow(0 5px 15px rgba(0,0,0,0.5));
+    
+    /* Анимация блика */
+    animation: shine 8s linear infinite;
+    
+    /* Чтобы не мешал другим элементам */
+    position: relative;
+    z-index: 10;
+}
+
+@keyframes shine {
+    to { background-position: 200% center; }
 }
 .reklama {
 	text-align: center;
@@ -46,67 +76,95 @@ sub {
 	vertical-align: baseline;
 }
 .gallery {
-	display: grid;
-	grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-	gap: 12px;
-	max-width: 500px
-	width: 100%
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 12px;
+    max-width: 500px;
+    width: 100%;
+    padding: 15px;
+    perspective: 1000px;
 }
+
 .gallery img {
-	width: 100%;
-	height: 140px;
-	object-fit: cover;
-	border-radius: 12px;
-	background: #252527;
-	transition: all 0.3s ease;
-	border: 1px solid rgba(255, 255, 255, 0.05);
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    border-radius: 20px;
+    background: #252527;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    /* Важно: transition для плавного всплытия */
+    transition: transform 0.3s cubic-bezier(0.33, 1, 0.68, 1), box-shadow 0.3s ease, filter 0.3s ease;
+    cursor: pointer;
+    will-change: transform;
 }
-.gallery img:hover {
-	transform: scale(1.03);
-	border-color: rgba(255,255, 255, 0.2);
-	box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+
+/* Эффект затухания остальных фоток при наведении */
+.gallery:hover img:not(:active) {
+    opacity: 0.7;
+    filter: grayscale(0.2);
+}
+
+/* ТОТ САМЫЙ ЭФФЕКТ: Всплытие при зажатии/нажатии */
+.gallery img:active {
+    transform: scale(1.15) translateY(-10px) rotateX(5deg) !important;
+    z-index: 100;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+    border-color: rgba(255, 255, 255, 0.5);
+    filter: brightness(1.1) !important;
+}
+
+/* Дополнительно: блюрим всё вокруг, когда фото "поднято" */
+body:has(.gallery img:active) .social-icon,
+body:has(.gallery img:active) h1 {
+    filter: blur(4px);
+    transition: 0.3s;
 }
 .social-icon {
-	margin-top: 40px;
-	display: inline-flex;
-	align-items: center;
-	gap: 10px;
-	padding: 12px 20px;
-	background-attachment: #252527;
-	color: #eee;
-	text-decoration: none;
-	border-radius: 12px;
-	border: 1px solid #333;
-	transition: 0.2s;
-	font-size: 0.9rem;
+    margin-top: 40px;
+    margin-bottom: 25px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    background: rgba(37, 37, 39, 0.8);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    color: #24A1DE !important;
+    text-decoration: none;
+    border-radius: 14px;
+    border: 1px solid #333;
+    font-size: 0.95rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    animation: pulse-glow 3s infinite ease-in-out;
 }
+
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 5px rgba(36, 161, 222, 0.1); border-color: #333; }
+    50% { box-shadow: 0 0 20px rgba(36, 161, 222, 0.4); border-color: #24A1DE; }
+    100% { box-shadow: 0 0 5px rgba(36, 161, 222, 0.1); border-color: #333; }
+}
+
 .social-icon:hover {
-	background: 2c2c2e;
-	border-color: #444;
+    background: rgba(44, 44, 46, 1);
+    transform: translateY(-2px);
 }
-.social-icon {
-	color: #24A1DE;
+
+.social-icon:active {
+    transform: scale(0.95);
 }
 br {
 	display: none;
 }
 .apple-counter {
-    margin-top: 60px;
-    margin-bottom: 30px;
-    padding: 10px 20px;
-    background: rgba(255, 255, 255, 0.03); 
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 18px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    width: fit-content;
+    border-radius: 14px;
+    padding: 8px 16px;
+    /* Убираем лишние тени, оставляем только контур */
+    box-shadow: none; 
 }
-
 .apple-counter:hover {
     background: rgba(255, 255, 255, 0.07);
     transform: translateY(-5px);
@@ -126,6 +184,115 @@ br {
     filter: grayscale(1) brightness(1.2);
     mix-blend-mode: screen;
     opacity: 0.8;
+}
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 5px rgba(36, 161, 222, 0.2); border-color: #333; }
+    50% { box-shadow: 0 0 15px rgba(36, 161, 222, 0.5); border-color: #24A1DE; }
+    100% { box-shadow: 0 0 5px rgba(36, 161, 222, 0.2); border-color: #333; }
+}
+
+.social-icon[href*="realitybroke"] {
+    animation: pulse-glow 3s infinite ease-in-out;
+	margin-top: 40px;
+	margin-bottom: 20px;
+	display: inline-text;
+}
+#scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0%;
+    height: 3px;
+    background: linear-gradient(90deg, #4a9eff, #24A1DE);
+    z-index: 10000;
+    box-shadow: 0 0 10px rgba(74, 158, 255, 0.5);
+}
+.dynamic-photos {
+    display: inline-block;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ffffff;
+    transition: all 1s ease-in-out;
+    animation: fontMorph 8s infinite alternate; /* Зацикленно туда-сюда */
+}
+
+@keyframes fontMorph {
+    0% {
+        font-weight: 300;
+        font-style: normal;
+        letter-spacing: 1px;
+        text-shadow: 0 0 5px rgba(255,255,255,0);
+    }
+    25% {
+        font-weight: 900;
+        font-style: normal;
+        letter-spacing: 4px;
+        text-shadow: 0 0 10px rgba(255,255,255,0.3);
+    }
+    50% {
+        font-weight: 400;
+        font-style: italic; /* Уходим в элегантный курсив */
+        letter-spacing: 2px;
+        text-shadow: 0 0 15px rgba(74, 158, 255, 0.4); /* Мягкий синий блик */
+    }
+    75% {
+        font-weight: 700;
+        font-style: normal;
+        letter-spacing: -1px; /* Сжимаем текст */
+        transform: scale(1.05);
+    }
+    100% {
+        font-weight: 300;
+        font-style: normal;
+        letter-spacing: 2px;
+    }
+}
+.reklama, sub, .counter-label {
+    color: rgba(255, 255, 255, 0.5) !important; /* Полупрозрачный белый */
+    font-size: 0.85rem;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    text-shadow: none; /* Убираем лишнее свечение */
+    transition: color 0.3s ease;
+}
+
+/* При наведении текст чуть "оживает" */
+.reklama:hover, sub:hover {
+    color: rgba(255, 255, 255, 0.8) !important;
+}
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #0a0a0c; }
+::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #4a9eff; }
+.gallery img:active {
+    filter: brightness(1.4) !important;
+    transition: 0.1s;
+}
+::selection {
+    background: rgba(36, 161, 222, 0.3);
+    color: #fff;
+}
+.scanner-layer {
+    position: fixed;
+    top: -100%;
+    left: -100%;
+    width: 300%;
+    height: 300%;
+    background: linear-gradient(
+        45deg, 
+        transparent 45%, 
+        rgba(255, 255, 255, 0.05) 50%, 
+        transparent 55%
+    );
+    z-index: 9999;
+    pointer-events: none;
+    animation: sweep 10s infinite linear;
+}
+
+@keyframes sweep {
+    0% { transform: translate(0,0); }
+    100% { transform: translate(30%, 30%); }
 }
 
 
